@@ -1,21 +1,20 @@
-// Módulos CommonJS
-const greeting = require('./greeting.js');
-console.log(greeting.sayHello());
-console.log(greeting.sayBye('Node.js'));
+const express = require('express');
+const morgan = require('morgan')
+const beersApi = require('./beers-api');
 
-console.log('**************************************************');
+const app = express();
 
-// Programación asíncrona
-function printBeers(beers) {
-    console.log(beers);
-}
+// Using asynchronous APIs and route handlers
+// app.get('/', (req, res) => {
+//     res.send('Hello, Express!');
+// });
 
-const repository = require('./beer-repository.js');
-// No callback
-const beers = repository.findAll(); //Step 1
-printBeers(beers); //Step 2
+// app.use(express.static('public'));
 
-console.log('**************************************************');
+app.use(morgan('dev'));
+app.use('/beers', beersApi);
 
-// Callback
-repository.findByName('Russian', printBeers);
+const port = 3_000;
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});
